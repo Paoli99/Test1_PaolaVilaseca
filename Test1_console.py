@@ -94,6 +94,30 @@ def main():
             print("=====(Presione 6 para volver atras)=====")
             print("========================================")
             print("")
+            
+            try:
+                response = requests.get(f"{API_URL}/tareas/pendientes")
+                if response.status_code == 200:
+                    pending_tasks = response.json()["tasks"]
+                    if pending_tasks:
+                        for task in pending_tasks:
+                            print(f"ID: {task['id']} - Tarea: {task['task']} - Estado: Pendiente")
+                    else:
+                        print("No hay tareas pendientes.")
+                else:
+                    print("Error al obtener las tareas pendientes.")
+            except requests.exceptions.ConnectionError:
+                print("Error: No se pudo conectar al servidor.")
+                break
+            print("========================================")
+            new_task = input()
+
+            if new_task == "6":
+                break
+            else:
+                print("Por favor, escriba '6' para salir.")
+            print("========================================")
+
 
         # El usuario debe escribir guardar para que las tareas se guarden
         elif option == "5":

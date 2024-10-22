@@ -46,8 +46,13 @@ def add_task():
         "task": new_task
     }), 201
 
-#Opcion 5: Gurdar tareas
+#opcion 4: Mostrar tareas pendientes
+@app.route('/tareas/pendientes', methods=['GET'])
+def get_pending_tasks():
+    pending_tasks = [task for task in tasks if not task["completed"]]  # Filtrar tareas pendientes
+    return jsonify({"tasks": pending_tasks}), 200
 
+#Opcion 5: Gurdar tareas
 @app.route('/guardar', methods=['POST'])
 #Funcion para que se guarden las tareas
 def save_tasks():
