@@ -6,7 +6,7 @@ app = Flask(__name__)
 tasks = []
 task_id = 0 # contador para asignar los ids
 
-# Funcion para cargar las tareas guardads 
+# Funcion para cargar las tareas guardadas y evitar que estas se sobre escriban 
 def load_tasks():
     global task_id, tasks
 
@@ -48,14 +48,8 @@ def add_task():
 
 #Opcion 5: Gurdar tareas
 
-def save_tasks_to_file():
-    with open("Tareas.txt", "w") as file:
-        for task in tasks:
-            status = "Completada" if task["completed"] else "Pendiente"
-            file.write(f"ID: {task['id']} - Tarea: {task['task']} - Estado: {status}\n")
-
-
 @app.route('/guardar', methods=['POST'])
+#Funcion para que se guarden las tareas
 def save_tasks():
     with open("Tareas.txt", "w") as file:
         for task in tasks:
