@@ -1,6 +1,10 @@
 # Funcion para mostrara el menu principal
 
 import queue
+import requests 
+import subprocess
+
+API_URL = 'http://127.0.0.1:5000/tareas'
 
 def start_program(inputQueue):
     print("========================================")
@@ -29,17 +33,22 @@ def main():
         if option == "1":
             print("========================================")
             print("===========Agregar tarea================")
+            print("=========(Presione 6 para salir)========")
             print("========================================")
             print("")
             new_task = input("Ingrese la tarea: ")
-            print("========================================")
-            print("=========Presione 6 para salir==========")
             print("========================================")
 
             if new_task == "6":
                 continue
             else: 
-                print("Tarea: ", new_task, "agregada")
+                response = requests.post(API_URL, json={"task": new_task})
+                if response.status_code == 201:
+                    created_task = response.json()["task"]
+                    print(f"La tarea '{created_task['id']}' '{created_task['task']}' fue creada exitosamente.")
+                else:
+                    print("Error al agregar la tarea.")
+
 
         elif option == "2":
             print("========================================")
@@ -87,7 +96,13 @@ def main():
             print("Por favor, ingrese una opcion valida.")
 
 if __name__ == "__main__":
-    main()
+    flask_process = subprocess.Popen(['python', 'Test1_apis.py'])
+
+    try: 
+        main()
+    
+    finally:
+        flask_process.terminate()
 
 
 
