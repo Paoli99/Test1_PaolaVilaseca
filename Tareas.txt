@@ -1,1 +1,2 @@
-ID: 0 - Tarea: Primer Task - Estado: Pendiente
+ID: 0 - Tarea: Primer task - Estado: Pendiente
+ID: 1 - Tarea: Segundo task - Estado: Pendiente

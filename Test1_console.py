@@ -2,6 +2,7 @@ import queue
 import requests 
 import subprocess
 import time
+import os
 
 API_URL = 'http://127.0.0.1:5000/'
 
@@ -18,14 +19,6 @@ def check_server_status():
             time.sleep(1)
 
     return False 
-
-# Funcion para guardar las tareas en un archivo txt
-def save_tasks(tasks):
-    with open("Tareas.txt", "w") as file:
-        for task in tasks:
-            status = "Completada" if task.get("completed") else "Pendiente"
-            file.write(f"ID: {task['id']} - Tarea: {task['task']} - Estado: {status}\n")
-    print("Tareas guardadas en 'Tareas.txt'.")
 
 # Funcion para mostrara el menu principal
 def start_program(inputQueue):
