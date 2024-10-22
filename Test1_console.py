@@ -1,11 +1,25 @@
-# Funcion para mostrara el menu principal
-
 import queue
 import requests 
 import subprocess
+import time
 
-API_URL = 'http://127.0.0.1:5000/tareas'
+API_URL = 'http://127.0.0.1:5000/'
 
+# Funcion para verificar que el servidor funcione correctamente
+def check_server_status():
+    for _ in range (5):
+        try: 
+            response = requests.get(API_URL)
+            if response.status_code == 200:
+                print("Servidor funcionando correctamente")
+                return True
+        except requests.exceptions.ConnectionError:
+            print("Esperando a que el servidor Flask se inicie...")
+            time.sleep(1)
+
+    return False 
+
+# Funcion para mostrara el menu principal
 def start_program(inputQueue):
     print("========================================")
     print("=============BIENVENIDO=================")
@@ -42,13 +56,17 @@ def main():
             if new_task == "6":
                 continue
             else: 
-                response = requests.post(API_URL, json={"task": new_task})
-                if response.status_code == 201:
-                    created_task = response.json()["task"]
-                    print(f"La tarea '{created_task['id']}' '{created_task['task']}' fue creada exitosamente.")
-                else:
-                    print("Error al agregar la tarea.")
+                try:
+                    response = requests.post(f"{API_URL}/tareas", json={"task": new_task})
+                
+                    if response.status_code == 201:
+                        created_task = response.json()["task"]
+                        print(f"La tarea '{created_task['id']}' '{created_task['task']}' fue creado exitosamente.")
+                    else:
+                        print("Error al agregar la tarea.")
 
+                except requests.exceptions.ConnectionError:
+                    print("Error: No se pudo conectar al servidor Flask.")
 
         elif option == "2":
             print("========================================")
@@ -98,11 +116,13 @@ def main():
 if __name__ == "__main__":
     flask_process = subprocess.Popen(['python', 'Test1_apis.py'])
 
-    try: 
+    if check_server_status():
         main()
+
+    else:
+        print("Error: No se pudo iniciar el servidor Flask.")
     
-    finally:
-        flask_process.terminate()
+    flask_process.terminate()
 
 
 
