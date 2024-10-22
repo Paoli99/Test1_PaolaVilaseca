@@ -71,37 +71,36 @@ def main():
         elif option == "2":
             print("========================================")
             print("===========Eliminar tarea===============")
+            print("=====(Presione 6 para volver atras)=====")
             print("========================================")
             print("")
-            print("========================================")
-            print("=========Presione 6 para salir==========")
+            new_task = input("Ingrese el id de la tarea: ")
             print("========================================")
 
         elif option == "3":
             print("========================================")
             print("=====Marcar tarea como completada=======")
+            print("=====(Presione 6 para volver atras)=====")
             print("========================================")
             print("")
-            print("========================================")
-            print("=========Presione 6 para salir==========")
+            new_task = input("Ingrese el id de la tarea: ")
             print("========================================")
 
         elif option == "4":
             print("========================================")
             print("===== Lista de tareas pendientes =======")
+            print("=====(Presione 6 para volver atras)=====")
             print("========================================")
             print("")
-            print("========================================")
-            print("=========Presione 6 para salir==========")
-            print("========================================")
+
 
         elif option == "5":
             print("========================================")
-            print("======== Guardar tarea en txt ==========")
+            print("======== Guardar tareas en txt =========")
+            print("=====(Presione 6 para volver atras)=====")
             print("========================================")
             print("")
-            print("========================================")
-            print("=========Presione 6 para salir==========")
+            new_task = input("Escriba 'guardar' para guardar las tareas: ")
             print("========================================")
 
         elif option == "6":
