@@ -20,7 +20,7 @@ def start_program(inputQueue):
 
 def main():
     task = []
-    inputQueue = queue.Queue
+    inputQueue = queue.Queue()
 
     while True:
         start_program(inputQueue)
@@ -31,11 +31,17 @@ def main():
             print("===========Agregar tarea================")
             print("========================================")
             print("")
+            new_task = input("Ingrese la tarea: ")
             print("========================================")
             print("=========Presione 6 para salir==========")
             print("========================================")
 
-        if option == "2":
+            if new_task == "6":
+                continue
+            else: 
+                print("Tarea: ", new_task, "agregada")
+
+        elif option == "2":
             print("========================================")
             print("===========Eliminar tarea===============")
             print("========================================")
@@ -44,7 +50,7 @@ def main():
             print("=========Presione 6 para salir==========")
             print("========================================")
 
-        if option == "3":
+        elif option == "3":
             print("========================================")
             print("=====Marcar tarea como completada=======")
             print("========================================")
@@ -53,7 +59,7 @@ def main():
             print("=========Presione 6 para salir==========")
             print("========================================")
 
-        if option == "4":
+        elif option == "4":
             print("========================================")
             print("===== Lista de tareas pendientes =======")
             print("========================================")
@@ -62,7 +68,7 @@ def main():
             print("=========Presione 6 para salir==========")
             print("========================================")
 
-        if option == "5":
+        elif option == "5":
             print("========================================")
             print("======== Guardar tarea en txt ==========")
             print("========================================")
@@ -71,13 +77,17 @@ def main():
             print("=========Presione 6 para salir==========")
             print("========================================")
 
-        if option == "5":
+        elif option == "6":
             print("========================================")
             print("=========Saliendo del programa==========")
             print("========================================")
             break
 
+        else:
+            print("Por favor, ingrese una opcion valida.")
 
+if __name__ == "__main__":
+    main()
 
 
 
