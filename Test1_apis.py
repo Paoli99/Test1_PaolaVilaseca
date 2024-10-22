@@ -29,6 +29,7 @@ def home():
 
 # Opcion 1: Agregar tareas
 @app.route('/tareas', methods=['POST'])
+#Funcion para agregar tareas 
 def add_task():
     global task_id 
     task_data = request.get_json()
@@ -46,8 +47,22 @@ def add_task():
         "task": new_task
     }), 201
 
+# Opción 2: Eliminar tarea por ID
+@app.route('/tareas/<int:id>', methods=['DELETE'])
+#Funcion para borrar tareas
+def delete_task(id):
+    global tasks
+    task_to_delete = next((task for task in tasks if task["id"] == id), None)
+
+    if task_to_delete:
+        tasks.remove(task_to_delete)
+        return jsonify({"message": f"La tarea con ID {id} fue eliminada correctamente."}), 200
+    else:
+        return jsonify({"message": f"La tarea con ID {id} no existe."}), 404
+    
 #opcion 4: Mostrar tareas pendientes
 @app.route('/tareas/pendientes', methods=['GET'])
+#Funcion para obtener las tareas pendientes
 def get_pending_tasks():
     pending_tasks = [task for task in tasks if not task["completed"]]  # Filtrar tareas pendientes
     return jsonify({"tasks": pending_tasks}), 200

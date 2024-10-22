@@ -48,13 +48,13 @@ def main():
         if option == "1":
             print("========================================")
             print("===========Agregar tarea================")
-            print("=========(Presione 6 para salir)========")
+            print("===(Escriba 'atras' para volver atras)===")
             print("========================================")
             print("")
             new_task = input("Ingrese la tarea: ")
             print("========================================")
 
-            if new_task == "6":
+            if new_task == "atras":
                 continue
             else: 
                 try:
@@ -73,25 +73,41 @@ def main():
         elif option == "2":
             print("========================================")
             print("===========Eliminar tarea===============")
-            print("=====(Presione 6 para volver atras)=====")
+            print("===(Escriba 'atras' para volver atras)===")
             print("========================================")
             print("")
-            new_task = input("Ingrese el id de la tarea: ")
+            task_id  = input("Ingrese el id de la tarea: ")
             print("========================================")
+
+            if task_id == "atras":
+                continue
+            else:
+                try:
+                    response = requests.delete(f"{API_URL}/tareas/{task_id}")
+                    if response.status_code == 200:
+                        print(f"Tarea con ID {task_id} eliminada correctamente.")
+                    elif response.status_code == 404:
+                        print(f"No se encontró ninguna tarea con ID {task_id}.")
+                    else:
+                        print("Error al eliminar la tarea.")
+                except requests.exceptions.ConnectionError:
+                    print("Error: No se pudo conectar al servidor Flask.")
 
         elif option == "3":
             print("========================================")
             print("=====Marcar tarea como completada=======")
-            print("=====(Presione 6 para volver atras)=====")
+            print("===(Escriba 'atras' para volver atras)===")
             print("========================================")
             print("")
-            new_task = input("Ingrese el id de la tarea: ")
+            task_id = input("Ingrese el id de la tarea: ")
             print("========================================")
+
+            
 
         elif option == "4":
             print("========================================")
             print("===== Lista de tareas pendientes =======")
-            print("=====(Presione 6 para volver atras)=====")
+            print("===(Escriba 'atras' para volver atras)===")
             print("========================================")
             print("")
             
@@ -110,12 +126,12 @@ def main():
                 print("Error: No se pudo conectar al servidor.")
                 break
             print("========================================")
-            new_task = input()
+            keyboard = input()
 
-            if new_task == "6":
-                break
+            if keyboard == "atras":
+                continue
             else:
-                print("Por favor, escriba '6' para salir.")
+                print("Por favor, escriba 'atras' para salir.")
             print("========================================")
 
 
@@ -127,9 +143,9 @@ def main():
                 print("=====(Presione 6 para volver atras)=====")
                 print("========================================")
                 print("")
-                new_task = input("Escriba 'guardar' para guardar las tareas: ")
+                keyboard = input("Escriba 'guardar' para guardar las tareas: ")
 
-                if new_task.lower() == "guardar":
+                if keyboard.lower() == "guardar":
                     try:
                         response = requests.post(f"{API_URL}/guardar")
                         if response.status_code == 200:
@@ -141,8 +157,8 @@ def main():
                         print("Error: No se pudo conectar al servidor Flask.")
                         break  
 
-                elif new_task == "6":
-                    break
+                elif keyboard == "atras":
+                    continue
 
                 else:
                     print("Por favor, ingrese el comando correcto")
