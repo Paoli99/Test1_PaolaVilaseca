@@ -56,7 +56,14 @@ def delete_task(id):
 
     if task_to_delete:
         tasks.remove(task_to_delete)
+        # Actulizar el archivo txt 
+        with open("Tareas.txt", "w") as file:
+            for task in tasks:
+                status = "Completada" if task["completed"] else "Pendiente"
+                file.write(f"ID: {task['id']} - Tarea: {task['task']} - Estado: {status}\n")
+                
         return jsonify({"message": f"La tarea con ID {id} fue eliminada correctamente."}), 200
+    
     else:
         return jsonify({"message": f"La tarea con ID {id} no existe."}), 404
     
@@ -75,6 +82,9 @@ def save_tasks():
         for task in tasks:
             status = "Completada" if task["completed"] else "Pendiente"
             file.write(f"ID: {task['id']} - Tarea: {task['task']} - Estado: {status}\n")
+    return jsonify({"message": "Tareas guardadas en 'Tareas.txt'."}), 200
+
+    save_tasks_to_file()
     return jsonify({"message": "Tareas guardadas en 'Tareas.txt'."}), 200
 
 if __name__ == '__main__':
