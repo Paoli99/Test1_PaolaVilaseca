@@ -19,12 +19,19 @@ def check_server_status():
 
     return False 
 
+# Funcion para guardar las tareas en un archivo txt
+def save_tasks(tasks):
+    with open("Tareas.txt", "w") as file:
+        for task in tasks:
+            status = "Completada" if task.get("completed") else "Pendiente"
+            file.write(f"ID: {task['id']} - Tarea: {task['task']} - Estado: {status}\n")
+    print("Tareas guardadas en 'Tareas.txt'.")
+
 # Funcion para mostrara el menu principal
 def start_program(inputQueue):
     print("========================================")
     print("=============BIENVENIDO=================")
     print("========================================")
-    print("Por favor, seleccione una opcion: ")
     print("1. Agregar tarea")
     print("2. Eliminar tarea")
     print("3. Marcar tarea como completada")
@@ -33,17 +40,18 @@ def start_program(inputQueue):
     print("6. Salir")
     print("========================================")
 
-    input_str = input()
+    input_str = input("Por favor, seleccione una opcion: " )
     inputQueue.put(input_str)
 
 def main():
-    task = []
+    tasks = []
     inputQueue = queue.Queue()
 
     while True:
         start_program(inputQueue)
         option = inputQueue.get()
 
+        # El usuario escribe el nombre de la tarea para agregarla 
         if option == "1":
             print("========================================")
             print("===========Agregar tarea================")
@@ -61,6 +69,7 @@ def main():
                 
                     if response.status_code == 201:
                         created_task = response.json()["task"]
+                        tasks.append(created_task) # guardar la tare localmente
                         print(f"La tarea '{created_task['id']}' '{created_task['task']}' fue creado exitosamente.")
                     else:
                         print("Error al agregar la tarea.")
@@ -93,15 +102,34 @@ def main():
             print("========================================")
             print("")
 
-
+        # El usuario debe escribir guardar para que las tareas se guarden
         elif option == "5":
-            print("========================================")
-            print("======== Guardar tareas en txt =========")
-            print("=====(Presione 6 para volver atras)=====")
-            print("========================================")
-            print("")
-            new_task = input("Escriba 'guardar' para guardar las tareas: ")
-            print("========================================")
+            while True:
+                print("========================================")
+                print("======== Guardar tareas en txt =========")
+                print("=====(Presione 6 para volver atras)=====")
+                print("========================================")
+                print("")
+                new_task = input("Escriba 'guardar' para guardar las tareas: ")
+
+                if new_task.lower() == "guardar":
+                    try:
+                        response = requests.post(f"{API_URL}/guardar")
+                        if response.status_code == 200:
+                            print("Tareas guardadas")
+                            break  
+                        else:
+                            print("Error al guardar las tareas.")
+                    except requests.exceptions.ConnectionError:
+                        print("Error: No se pudo conectar al servidor Flask.")
+                        break  
+
+                elif new_task == "6":
+                    break
+
+                else:
+                    print("Por favor, ingrese el comando correcto")
+                print("========================================")
 
         elif option == "6":
             print("========================================")
