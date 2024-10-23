@@ -61,12 +61,29 @@ def delete_task(id):
             for task in tasks:
                 status = "Completada" if task["completed"] else "Pendiente"
                 file.write(f"ID: {task['id']} - Tarea: {task['task']} - Estado: {status}\n")
-                
+
         return jsonify({"message": f"La tarea con ID {id} fue eliminada correctamente."}), 200
     
     else:
         return jsonify({"message": f"La tarea con ID {id} no existe."}), 404
     
+#Opcion 3: Marcar tareas completadas 
+@app.route('/tareas/<int:id>/completada', methods=['PUT'])
+def mark_task_completed(id):
+    global tasks
+    task_to_complete = next((task for task in tasks if task["id"] == id), None)
+
+    if task_to_complete:
+        task_to_complete["completed"] = True
+        # Actulizar el archivo txt
+        with open("Tareas.txt", "w") as file:
+            for task in tasks:
+                status = "Completada" if task["completed"] else "Pendiente"
+                file.write(f"ID: {task['id']} - Tarea: {task['task']} - Estado: {status}\n")
+        return jsonify({"message": f"Tarea con ID {id} marcada como completada."}), 200
+    else:
+        return jsonify({"message": f"Tarea con ID {id} no encontrada."}), 404
+        
 #opcion 4: Mostrar tareas pendientes
 @app.route('/tareas/pendientes', methods=['GET'])
 #Funcion para obtener las tareas pendientes

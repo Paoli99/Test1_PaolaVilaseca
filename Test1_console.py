@@ -96,13 +96,30 @@ def main():
                         print("Error: No se pudo conectar al servidor Flask.")
 
         elif option == "3":
-            print("========================================")
-            print("=====Marcar tarea como completada=======")
-            print("===(Escriba 'atras' para volver atras)===")
-            print("========================================")
-            print("")
-            task_id = input("Ingrese el id de la tarea: ")
-            print("========================================")
+            while True:
+                print("========================================")
+                print("=====Marcar tarea como completada=======")
+                print("===(Escriba 'atras' para volver atras)===")
+                print("========================================")
+                print("")
+                task_id = input("Ingrese el id de la tarea: ")
+                print("========================================")
+
+                if task_id == "atras":
+                    break
+                else:
+                    try:
+                        response = requests.put(f"{API_URL}/tareas/{task_id}/completada")
+                        if response.status_code == 200:
+                            print(f"Tarea con ID {task_id} marcada como completada correctamente.")
+                        elif response.status_code == 404:
+                            print(f"No se encontró ninguna tarea con ID {task_id}.")
+                        else:
+                            print("Error al marcar la tarea como completada.")
+                    except requests.exceptions.ConnectionError:
+                        print("Error: No se pudo conectar al servidor Flask.")
+                        
+                    print("========================================")
 
             
 
