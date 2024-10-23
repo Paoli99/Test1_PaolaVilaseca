@@ -41,6 +41,7 @@ def main():
     tasks = []
     inputQueue = queue.Queue()
 
+    # Ciclo while para que el usuario agregue multiples tareas si quiere
     while True:
         start_program(inputQueue)
         option = inputQueue.get()
@@ -55,6 +56,7 @@ def main():
             new_task = input("Ingrese la tarea: ")
             print("========================================")
 
+            #Usuario escribe atrs para volver al menu
             if new_task == "atras":
                 continue
             else: 
@@ -71,7 +73,9 @@ def main():
                 except requests.exceptions.ConnectionError:
                     print("Error: No se pudo conectar al servidor Flask.")
 
+        # El usuario puede borrar tareas 
         elif option == "2":
+            # Ciclo while para que el usuario borrar multiples tareas si quiere
             while True:
                 print("========================================")
                 print("===========Eliminar tarea===============")
@@ -95,7 +99,9 @@ def main():
                     except requests.exceptions.ConnectionError:
                         print("Error: No se pudo conectar al servidor Flask.")
 
+        # El usuario marca tareas como completadas 
         elif option == "3":
+            # Ciclo while para que el usuario marcar multiples tareas como completadas
             while True:
                 print("========================================")
                 print("=====Marcar tarea como completada=======")
@@ -118,44 +124,35 @@ def main():
                             print("Error al marcar la tarea como completada.")
                     except requests.exceptions.ConnectionError:
                         print("Error: No se pudo conectar al servidor Flask.")
-                        
+
                     print("========================================")
 
             
-
+        # El usuario ve laa lista de tareas
         elif option == "4":
-            while True:
-                print("========================================")
-                print("===== Lista de tareas pendientes =======")
-                print("===(Escriba 'atras' para volver atras)===")
-                print("========================================")
-                try:
-                    response = requests.get(f"{API_URL}/tareas/pendientes")
-                    if response.status_code == 200:
-                        pending_tasks = response.json()["tasks"]
-                        if pending_tasks:
-                            for task in pending_tasks:
-                                print(f"ID: {task['id']} - Tarea: {task['task']} - Estado: Pendiente")
-                        else:
-                            print("No hay tareas pendientes.")
+            print("========================================")
+            print("===== Lista de tareas pendientes =======")
+            print("========================================")
+            try:
+                response = requests.get(f"{API_URL}/tareas/pendientes")
+                if response.status_code == 200:
+                    pending_tasks = response.json()["tasks"]
+                    if pending_tasks:
+                        for task in pending_tasks:
+                            print(f"ID: {task['id']} - Tarea: {task['task']} - Estado: Pendiente")
                     else:
-                        print("Error al obtener las tareas pendientes.")
-                except requests.exceptions.ConnectionError:
-                    print("Error: No se pudo conectar al servidor.")
-                    break
-
-                print("========================================")
-                keyboard = input("Escriba 'atras' para volver: ")
-
-                if keyboard.lower() == "atras":
-                    break
+                        print("No hay tareas pendientes.")
                 else:
-                    print("Por favor, escriba 'atras' para salir.")
-                print("========================================")
+                    print("Error al obtener las tareas pendientes.")
+            except requests.exceptions.ConnectionError:
+                print("Error: No se pudo conectar al servidor.")
+            
+            print("========================================")
 
 
         # El usuario debe escribir guardar para que las tareas se guarden
         elif option == "5":
+            # Ciclo while para que el usuario solo pueda volver atras si ingresa el comando correcto
             while True:
                 print("========================================")
                 print("======== Guardar tareas en txt =========")
