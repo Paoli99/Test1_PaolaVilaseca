@@ -8,7 +8,7 @@
 3. **Marcar tarea como completada**: Permite al usuario marcar una tarea como completada por ID.
 4. **Listar tareas pendientes**: Muestra al usuario todas las tareas que están pendientes.
 5. **Guardar las tareas en un archivo de texto**: Permite al usuario guarda las tareas en el archivo `Tareas.txt`.
-6. **Salir**: Permite salir del programa.
+6. **Salir**: Permite al usuario salir del programa.
 
 ### API REST:
 - **POST /tareas**: Agregra una nueva tarea.

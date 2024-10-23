@@ -101,9 +101,6 @@ def save_tasks():
             file.write(f"ID: {task['id']} - Tarea: {task['task']} - Estado: {status}\n")
     return jsonify({"message": "Tareas guardadas en 'Tareas.txt'."}), 200
 
-    save_tasks_to_file()
-    return jsonify({"message": "Tareas guardadas en 'Tareas.txt'."}), 200
-
 if __name__ == '__main__':
     load_tasks()
     app.run(debug=False, use_reloader=False)
